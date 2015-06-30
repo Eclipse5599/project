@@ -15,6 +15,9 @@ public class StartMenuActivity extends Activity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_startmenu);
+
         startButton = (Button) findViewById(R.id.startmenu_start_button);
         startButton.setOnClickListener(this);
 
