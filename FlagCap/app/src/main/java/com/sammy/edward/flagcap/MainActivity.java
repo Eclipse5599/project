@@ -2,6 +2,7 @@ package com.sammy.edward.flagcap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     Button b;
     Button b2;
     Button buttonGetData;
+    Button buttonToBrowser
     TextView t;
     EditText e;
 
@@ -30,10 +32,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         t = (TextView)findViewById(R.id.textView);
         e = (EditText)findViewById(R.id.editText);
 
-        b = (Button)findViewById(R.id.button);
+        b = (Button)findViewById(R.id.buttonChangeText);
         b.setOnClickListener(this);
 
-        b2 = (Button)findViewById(R.id.button2);
+        b2 = (Button)findViewById(R.id.buttonGoToB);
         b2.setOnClickListener(this);
 
         startCounterButton = (Button) findViewById(R.id.start_counter);
@@ -47,6 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         buttonGetData = (Button)findViewById(R.id.buttonGetData);
         buttonGetData.setOnClickListener(this);
+
+        buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
+        buttonToBrowser.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +111,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         } else if ( v == buttonGetData) {
             Intent intent = new Intent(MainActivity.this, ActivityC.class);
             startActivityForResult(intent, 0);
+        } else if (v == buttonToBrowser) {
+            Uri address = Uri.parse("http://developer.android.com/");
+            Intent androidDocs = new Intent(Intent.ACTION_VIEW, address);
+            startActivity(androidDocs);
         }
     }
 }

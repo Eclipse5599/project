@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         android:text="@string/action_gamemenu"
     />
-
+    
     <Button
         android:id="@+id/start_location_tracker"
         android:layout_width="wrap_content"
@@ -42,9 +42,8 @@
         android:layout_gravity="center"
         android:text="@string/action_location"
     />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonChangeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -52,7 +51,7 @@
     />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonGoToB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -76,9 +75,18 @@
     />
 
     <Button
+        android:id="@+id/buttonGetData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Get Data"
-        android:id="@+id/buttonGetData"
-        android:layout_gravity="center_horizontal" />
+    />
+
+    <Button
+        android:id="@+id/buttonToBrowser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Go to Browser"
+    />
 </LinearLayout>
