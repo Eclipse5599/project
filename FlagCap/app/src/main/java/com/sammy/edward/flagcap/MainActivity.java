@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import extra.CounterActivity;
@@ -52,6 +55,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     @Override
+    protected void onResume(){
+        ImageView myImageView= (ImageView)findViewById(R.id.imageView);
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
+        myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
+        super.onResume();
+    }
+    
+    @Override
     protected void onStop() {
         super.onStop();
         saveToKeyFile();
@@ -62,7 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         outState.putString(THE_NICKNAME, t.getText().toString());
         super.onSaveInstanceState(outState);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
