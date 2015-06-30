@@ -21,10 +21,15 @@
             android:parentActivityName=".MainActivity"
             >
         </activity>
-        <activity android:name=".MainActivityB"
+        <activity android:name="com.sammy.edward.flagcap.MainActivityB"
             android:label="@string/mainactivityb_title"
             android:parentActivityName=".MainActivity"
             >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="text/plain"></data>
+            </intent-filter>
         </activity>
 
         <activity

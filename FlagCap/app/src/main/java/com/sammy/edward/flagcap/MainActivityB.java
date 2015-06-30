@@ -14,35 +14,49 @@ import android.widget.TextView;
 public class MainActivityB extends Activity {
 
     TextView t;
+    Boolean impossibleCondition = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("greetingbudle");
-        String greeting = bundle.getString("greeting");
-        String message = intent.getStringExtra("message");
-        Boolean showAll = intent.getBooleanExtra("showall",false);
-        int numItems = intent.getIntExtra("numItems",0);
-
-        final EditText e = (EditText)findViewById(R.id.editText);
         t = (TextView)findViewById(R.id.textView);
-        t.setText("This is activityB" + greeting + " " + message + " " + showAll + " " + numItems);
-        Button b = (Button)findViewById(R.id.button);
-
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivityB.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = getIntent();
 
 
+        if(intent != null){
+            String action = intent.getAction();
+            String type = intent.getType();
+            if(Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)){
+                t.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            } else if (impossibleCondition){
+                //handle intent data from MainActivityA
+                Bundle bundle = intent.getBundleExtra("greetingbudle");
+                String greeting = bundle.getString("greeting");
+                String message = intent.getStringExtra("message");
+                Boolean showAll = intent.getBooleanExtra("showall", false);
+                int numItems = intent.getIntExtra("numItems", 0);
+                t.setText("This is activityB" + greeting + " " + message + " " + showAll + " " + numItems);
+                final EditText e = (EditText)findViewById(R.id.editText);
 
-                startActivity(intent);
+
+                Button b = (Button)findViewById(R.id.button);
+
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(MainActivityB.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
+                        startActivity(intent);
+                    }
+                });
             }
-        });
+        }
+
+
+
 
 
     }

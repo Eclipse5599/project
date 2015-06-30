@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     Button startCounterButton;
+    TextView t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final EditText e = (EditText)findViewById(R.id.editText);
-        final TextView t = (TextView)findViewById(R.id.textView);
+        t = (TextView)findViewById(R.id.textView);
 
         Button b = (Button)findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,15 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        Button buttonGetData = (Button)findViewById(R.id.buttonGetData);
+        buttonGetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ActivityC.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     @Override
@@ -82,5 +92,14 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
+            String enteredData = data.getStringExtra("Data");
+            t.setText(enteredData);
+        }
+        super.onActivityResult(requestCode,resultCode,data);
     }
 }
