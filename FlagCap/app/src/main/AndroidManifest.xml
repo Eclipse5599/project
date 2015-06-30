@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".CounterActivity"
+            android:label="@string/count_activity_title"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        
     </application>
 
 </manifest>
