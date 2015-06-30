@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     Button startCounterButton;
+    Button startGameMenuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                /*Intent intent = new Intent(MainActivity.this, MainActivityB.class);
+                Intent intent = new Intent(MainActivity.this, MainActivityB.class);
                 Bundle b = new Bundle();
                 b.putString("greeting", "hello");
                 intent.putExtra("greetingbudle", b);
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
                 intent.putExtra("showAll", true);
                 intent.putExtra("numItems", 5);
 
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
 
@@ -57,6 +58,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CounterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        startGameMenuButton = (Button) findViewById(R.id.start_gamemenu);
+        startGameMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StartMenuActivity.class);
                 startActivity(intent);
             }
         });
