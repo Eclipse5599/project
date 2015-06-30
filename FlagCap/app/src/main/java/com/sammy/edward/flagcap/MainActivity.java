@@ -45,9 +45,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
         buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
         buttonToBrowser.setOnClickListener(this);
 
+
+    }
+
+    @Override
+    protected void onResume(){
         ImageView myImageView= (ImageView)findViewById(R.id.imageView);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
         myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
+        super.onResume();
     }
 
     @Override
