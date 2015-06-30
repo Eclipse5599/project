@@ -40,6 +40,12 @@
             android:label="@string/startmenu_title"
             android:parentActivityName=".MainActivity">
         </activity>
+
+        <activity
+            android:name=".LocationActivity"
+            android:label="@string/location_tracker_title"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
