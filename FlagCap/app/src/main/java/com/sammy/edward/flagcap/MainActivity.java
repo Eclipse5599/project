@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 public class MainActivity extends Activity implements View.OnClickListener{
 
     Button startCounterButton;
@@ -44,8 +43,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
         buttonToBrowser.setOnClickListener(this);
-
-
     }
 
     @Override
