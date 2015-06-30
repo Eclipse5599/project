@@ -9,7 +9,7 @@ import android.widget.Button;
 public class StartMenuActivity extends Activity implements View.OnClickListener {
 
     Button startButton;
-    Button highscoreButton;
+    Button highScoreButton;
     Button optionsButton;
     Button exitButton;
 
@@ -21,8 +21,8 @@ public class StartMenuActivity extends Activity implements View.OnClickListener 
         startButton = (Button) findViewById(R.id.startmenu_start_button);
         startButton.setOnClickListener(this);
 
-        highscoreButton = (Button) findViewById(R.id.startmenu_highscore_button);
-        highscoreButton.setOnClickListener(this);
+        highScoreButton = (Button) findViewById(R.id.startmenu_highscore_button);
+        highScoreButton.setOnClickListener(this);
 
         optionsButton = (Button) findViewById(R.id.startmenu_options_button);
         optionsButton.setOnClickListener(this);
@@ -35,7 +35,7 @@ public class StartMenuActivity extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         if (v == startButton) {
 
-        } else if (v == highscoreButton) {
+        } else if (v == highScoreButton) {
 
         } else if (v == optionsButton) {
 
