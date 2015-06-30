@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".CounterActivity"
+            android:name="extra.CounterActivity"
             android:label="@string/count_activity_title"
             android:parentActivityName=".MainActivity">
         </activity>
