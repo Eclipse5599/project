@@ -1,4 +1,4 @@
-package com.sammy.edward.flagcap;
+package extra;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.sammy.edward.flagcap.R;
 
 public class CounterActivity extends Activity implements View.OnClickListener{
 

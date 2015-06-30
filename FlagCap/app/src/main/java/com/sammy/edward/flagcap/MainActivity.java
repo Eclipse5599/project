@@ -2,6 +2,7 @@ package com.sammy.edward.flagcap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,8 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import extra.CounterActivity;
+
 
 public class MainActivity extends Activity implements View.OnClickListener{
+
+    static final String THE_NICKNAME = "Your Nickname";
 
     Button startCounterButton;
     Button startGameMenuButton;
@@ -41,6 +46,21 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
         buttonToBrowser.setOnClickListener(this);
+
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        t.setText(sharedPref.getString(THE_NICKNAME, "Your Nickname"));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveToKeyFile();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(THE_NICKNAME, t.getText().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -93,5 +113,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
             Intent androidDocs = new Intent(Intent.ACTION_VIEW, address);
             startActivity(androidDocs);
         }
+    }
+
+    public void saveToKeyFile() {
+        SharedPreferences sharedPref = this.getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(THE_NICKNAME, t.getText().toString());
+        editor.commit();
     }
 }
