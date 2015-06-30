@@ -5,4 +5,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TitleText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ContentText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">#ff7000</item>
+    </style>
+
 </resources>

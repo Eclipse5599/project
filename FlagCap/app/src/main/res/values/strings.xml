@@ -14,6 +14,16 @@
     <string name="counter_button_inc">+</string>
     <string name="counter_button_dec">-</string>
 
+    <!-- Location Tracker -->
+    <string name="location_tracker_title">The impressing location detector</string>
+    <string name="location_message">Your current position is: </string>
+    <string name="location_latitude">Latitude: </string>
+    <string name="location_latitude_value">000000000</string>
+    <string name="location_longitude">Longitude: </string>
+    <string name="location_longitude_value">000000000</string>
+    <string name="location_default_update_pretext">Last updated: </string>
+    <string name="location_time_updated">Never</string>
+
     <!-- Start Menu -->
     <string name="startmenu_title">FlagCap</string>
     <string name="startmenu_startbutton">Start Game</string>
