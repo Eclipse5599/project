@@ -39,7 +39,7 @@ public class MainActivityB extends Activity {
                 final EditText e = (EditText)findViewById(R.id.editText);
 
 
-                Button b = (Button)findViewById(R.id.button);
+                Button b = (Button)findViewById(R.id.buttonChangeText);
 
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
