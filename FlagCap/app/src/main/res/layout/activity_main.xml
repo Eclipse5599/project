@@ -36,19 +36,19 @@
     />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonChangeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/button"
+        android:text="Change text"
     />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonGoToB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/button2"
+        android:text="Go to B"
     />
 
     <TextView
@@ -72,5 +72,12 @@
         android:layout_height="wrap_content"
         android:text="Get Data"
         android:id="@+id/buttonGetData"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Browser"
+        android:id="@+id/buttonToBrowser"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

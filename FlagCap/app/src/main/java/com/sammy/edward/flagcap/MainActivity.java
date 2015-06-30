@@ -2,6 +2,7 @@ package com.sammy.edward.flagcap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ public class MainActivity extends Activity {
         final EditText e = (EditText)findViewById(R.id.editText);
         t = (TextView)findViewById(R.id.textView);
 
-        Button b = (Button)findViewById(R.id.button);
+        Button b = (Button)findViewById(R.id.buttonChangeText);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +34,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        Button b2 = (Button)findViewById(R.id.button2);
+        Button b2 = (Button)findViewById(R.id.buttonGoToB);
         b2.setOnClickListener(new View.OnClickListener() {
             /**
              * Moves to MainActivityB
@@ -78,6 +79,16 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ActivityC.class);
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        Button buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
+        buttonToBrowser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri address = Uri.parse("http://developer.android.com/");
+                Intent androidDocs = new Intent(Intent.ACTION_VIEW, address);
+                startActivity(androidDocs);
             }
         });
     }
