@@ -32,7 +32,11 @@
             android:label="@string/count_activity_title"
             android:parentActivityName=".MainActivity">
         </activity>
-        
+
+        <activity android:name=".StartMenuActivity"
+            android:label="@string/startmenu_title"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

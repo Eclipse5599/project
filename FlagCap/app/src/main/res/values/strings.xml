@@ -13,6 +13,13 @@
     <string name="counter_button_inc">+</string>
     <string name="counter_button_dec">-</string>
 
+    <!-- Start Menu -->
+    <string name="startmenu_title">FlagCap</string>
+    <string name="startmenu_startbutton">Start Game</string>
+    <string name="startmenu_highscorebutton">Highscore</string>
+    <string name="startmenu_optionsbutton">Options</string>
+    <string name="startmenu_exitbutton">Exit Game</string>
+
     <string name="button">Button1</string>
     <string name="button2">Button2</string>
     <string name="edit_text">EditText</string>
