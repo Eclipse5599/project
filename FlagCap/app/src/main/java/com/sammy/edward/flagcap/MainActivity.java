@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -41,6 +44,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         buttonToBrowser = (Button)findViewById(R.id.buttonToBrowser);
         buttonToBrowser.setOnClickListener(this);
+
+        ImageView myImageView= (ImageView)findViewById(R.id.imageView);
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
+        myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
     }
 
     @Override
