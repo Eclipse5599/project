@@ -11,75 +11,42 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener{
 
     Button startCounterButton;
     Button startGameMenuButton;
+    Button startLocationTrackerButton;
+    Button b;
+    Button b2;
+    Button buttonGetData;
     TextView t;
+    EditText e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText e = (EditText)findViewById(R.id.editText);
         t = (TextView)findViewById(R.id.textView);
+        e = (EditText)findViewById(R.id.editText);
 
-        Button b = (Button)findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                t.setText(e.getText());
-            }
-        });
+        b = (Button)findViewById(R.id.button);
+        b.setOnClickListener(this);
 
-        Button b2 = (Button)findViewById(R.id.button2);
-        b2.setOnClickListener(new View.OnClickListener() {
-            /**
-             * Moves to MainActivityB
-             * @param v
-             */
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, MainActivityB.class);
-                Bundle b = new Bundle();
-                b.putString("greeting", "hello");
-                intent.putExtra("greetingbudle", b);
-                intent.putExtra("message", "world");
-                intent.putExtra("showAll", true);
-                intent.putExtra("numItems", 5);
-
-                startActivity(intent);
-            }
-        });
+        b2 = (Button)findViewById(R.id.button2);
+        b2.setOnClickListener(this);
 
         startCounterButton = (Button) findViewById(R.id.start_counter);
-        startCounterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CounterActivity.class);
-                startActivity(intent);
-            }
-        });
+        startCounterButton.setOnClickListener(this);
 
         startGameMenuButton = (Button) findViewById(R.id.start_gamemenu);
-        startGameMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StartMenuActivity.class);
-                startActivity(intent);
-            }
-        });
+        startGameMenuButton.setOnClickListener(this);
 
-        Button buttonGetData = (Button)findViewById(R.id.buttonGetData);
-        buttonGetData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ActivityC.class);
-                startActivityForResult(intent, 0);
-            }
-        });
+        startLocationTrackerButton = (Button) findViewById(R.id.start_location_tracker);
+        startLocationTrackerButton.setOnClickListener(this);
+
+        buttonGetData = (Button)findViewById(R.id.buttonGetData);
+        buttonGetData.setOnClickListener(this);
     }
 
     @Override
@@ -111,5 +78,34 @@ public class MainActivity extends Activity {
             t.setText(enteredData);
         }
         super.onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == startCounterButton) {
+            Intent intent = new Intent(MainActivity.this, CounterActivity.class);
+            startActivity(intent);
+        } else if (v == startGameMenuButton) {
+            Intent intent = new Intent(MainActivity.this, StartMenuActivity.class);
+            startActivity(intent);
+        } else if (v == startLocationTrackerButton) {
+            Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+            startActivity(intent);
+        } else if(v == b) {
+            t.setText(e.getText());
+        } else if (v == b2) {
+            Intent intent = new Intent(MainActivity.this, MainActivityB.class);
+            Bundle b = new Bundle();
+            b.putString("greeting", "hello");
+            intent.putExtra("greetingbudle", b);
+            intent.putExtra("message", "world");
+            intent.putExtra("showAll", true);
+            intent.putExtra("numItems", 5);
+
+            startActivity(intent);
+        } else if ( v == buttonGetData) {
+            Intent intent = new Intent(MainActivity.this, ActivityC.class);
+            startActivityForResult(intent, 0);
+        }
     }
 }
