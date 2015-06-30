@@ -17,10 +17,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     Button startCounterButton;
     Button startGameMenuButton;
     Button startLocationTrackerButton;
-    Button b;
-    Button b2;
+    Button buttonChangeText;
+    Button buttonToB;
     Button buttonGetData;
-    Button buttonToBrowser
+    Button buttonToBrowser;
     TextView t;
     EditText e;
 
@@ -32,11 +32,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         t = (TextView)findViewById(R.id.textView);
         e = (EditText)findViewById(R.id.editText);
 
-        b = (Button)findViewById(R.id.buttonChangeText);
-        b.setOnClickListener(this);
+        buttonChangeText = (Button)findViewById(R.id.buttonChangeText);
+        buttonChangeText.setOnClickListener(this);
 
-        b2 = (Button)findViewById(R.id.buttonGoToB);
-        b2.setOnClickListener(this);
+        buttonToB = (Button)findViewById(R.id.buttonGoToB);
+        buttonToB.setOnClickListener(this);
 
         startCounterButton = (Button) findViewById(R.id.start_counter);
         startCounterButton.setOnClickListener(this);
@@ -96,9 +96,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         } else if (v == startLocationTrackerButton) {
             Intent intent = new Intent(MainActivity.this, LocationActivity.class);
             startActivity(intent);
-        } else if(v == b) {
+        } else if(v == buttonChangeText) {
             t.setText(e.getText());
-        } else if (v == b2) {
+        } else if (v == buttonToB) {
             Intent intent = new Intent(MainActivity.this, MainActivityB.class);
             Bundle b = new Bundle();
             b.putString("greeting", "hello");

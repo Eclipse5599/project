@@ -32,8 +32,8 @@
     <string name="startmenu_optionsbutton">Options</string>
     <string name="startmenu_exitbutton">Exit Game</string>
 
-    <string name="button">Button1</string>
-    <string name="button2">Button2</string>
+    <string name="buttonChangeText">Change text</string>
+    <string name="buttonToB">Go to B</string>
     <string name="edit_text">EditText</string>
     <string name="text_view">TextView</string>
     <string name="mainactivityb_title">MainActivityB</string>
