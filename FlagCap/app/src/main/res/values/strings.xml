@@ -6,12 +6,30 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_count">Start counter</string>
+    <string name="action_gamemenu">Switch to the game menu</string>
 
     <!-- The Counter -->
     <string name="count_activity_title">The amazing counter</string>
     <string name="theCount">0</string>
     <string name="counter_button_inc">+</string>
     <string name="counter_button_dec">-</string>
+
+    <!-- Location Tracker -->
+    <string name="location_tracker_title">The impressing location detector</string>
+    <string name="location_message">Your current position is: </string>
+    <string name="location_latitude">Latitude: </string>
+    <string name="location_latitude_value">000000000</string>
+    <string name="location_longitude">Longitude: </string>
+    <string name="location_longitude_value">000000000</string>
+    <string name="location_default_update_pretext">Last updated: </string>
+    <string name="location_time_updated">Never</string>
+
+    <!-- Start Menu -->
+    <string name="startmenu_title">FlagCap</string>
+    <string name="startmenu_startbutton">Start Game</string>
+    <string name="startmenu_highscorebutton">Highscore</string>
+    <string name="startmenu_optionsbutton">Options</string>
+    <string name="startmenu_exitbutton">Exit Game</string>
 
     <string name="button">Button1</string>
     <string name="button2">Button2</string>

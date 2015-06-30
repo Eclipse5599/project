@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".LocationActivity"
+    android:id="@+id/location_activity">
+
+    <TextView
+        android:id="@+id/location_constant_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/location_message"
+        android:textAppearance="@style/TitleText"
+    />
+
+    <TextView
+        android:id="@+id/location_latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_constant_message"
+        android:text="@string/location_latitude"
+        android:textStyle="bold"
+    />
+
+    <TextView
+        android:id="@+id/location_latitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_alignBottom="@id/location_latitude"
+        android:layout_toRightOf="@id/location_latitude"
+        android:layout_toEndOf="@id/location_latitude"
+        android:text="@string/location_latitude_value"
+    />
+
+    <TextView
+        android:id="@+id/location_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_latitude"
+        android:text="@string/location_longitude"
+        android:textStyle="bold"
+    />
+
+    <TextView
+        android:id="@+id/location_longitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/location_latitude_value"
+        android:layout_alignStart="@id/location_latitude_value"
+        android:layout_alignBottom="@id/location_longitude"
+        android:layout_toRightOf="@id/location_longitude"
+        android:layout_toEndOf="@id/location_longitude"
+        android:text="@string/location_longitude_value"
+    />
+
+    <TextView
+        android:id="@+id/location_update_pretext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/location_longitude"
+        android:text="@string/location_default_update_pretext"
+        android:textStyle="bold|italic"
+    />
+
+    <TextView
+        android:id="@+id/location_time_updated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_alignBottom="@id/location_update_pretext"
+        android:layout_toRightOf="@id/location_update_pretext"
+        android:layout_toEndOf="@id/location_update_pretext"
+        android:text="@string/location_time_updated"
+        android:textStyle="italic"
+    />
+
+</RelativeLayout>
