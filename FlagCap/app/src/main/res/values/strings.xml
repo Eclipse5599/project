@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">FlagCap</string>
+
+    <string name="welcome_message">Hello world!</string>
     <string name="activity_c_title">AktivitetC</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_count">Start counter</string>
+
+    <!-- The Counter -->
+    <string name="count_activity_title">The amazing counter</string>
+    <string name="theCount">0</string>
+    <string name="counter_button_inc">+</string>
+    <string name="counter_button_dec">-</string>
+
+    <string name="button">Button1</string>
+    <string name="button2">Button2</string>
+    <string name="edit_text">EditText</string>
+    <string name="text_view">TextView</string>
     <string name="mainactivityb_title">MainActivityB</string>
 </resources>

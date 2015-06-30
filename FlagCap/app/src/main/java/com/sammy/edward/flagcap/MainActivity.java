@@ -1,5 +1,6 @@
 package com.sammy.edward.flagcap;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,7 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
+
+    Button startCounterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +22,8 @@ public class MainActivity extends ActionBarActivity {
 
         final EditText e = (EditText)findViewById(R.id.editText);
         final TextView t = (TextView)findViewById(R.id.textView);
-        Button b = (Button)findViewById(R.id.button);
 
+        Button b = (Button)findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, MainActivityB.class);
+                /*Intent intent = new Intent(MainActivity.this, MainActivityB.class);
                 Bundle b = new Bundle();
                 b.putString("greeting", "hello");
                 intent.putExtra("greetingbudle", b);
@@ -45,6 +48,15 @@ public class MainActivity extends ActionBarActivity {
                 intent.putExtra("showAll", true);
                 intent.putExtra("numItems", 5);
 
+                startActivity(intent);*/
+            }
+        });
+
+        startCounterButton = (Button) findViewById(R.id.start_counter);
+        startCounterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CounterActivity.class);
                 startActivity(intent);
             }
         });
