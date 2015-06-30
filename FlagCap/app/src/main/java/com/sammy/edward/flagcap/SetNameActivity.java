@@ -21,6 +21,18 @@ public class SetNameActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.setnameactivity_layout);
 
         e = (EditText)findViewById(R.id.editText);
+        e.setOnClickListener(new View.OnClickListener() {
+            Boolean enabled = true;
+
+            @Override
+            public void onClick(View v) {
+                if (enabled) {
+                    e.setText("");
+                    enabled = false;
+                }
+            }
+        });
+        e.setText("Enter nickname here");
 
         buttonSend = (Button)findViewById(R.id.buttonSend);
         buttonSend.setOnClickListener(this);

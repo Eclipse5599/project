@@ -47,6 +47,10 @@
             android:label="@string/location_tracker_title"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".SetNameActivity"
+            android:label="Select your name"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

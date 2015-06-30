@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -17,12 +16,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
     Button startCounterButton;
     Button startGameMenuButton;
     Button startLocationTrackerButton;
-    Button buttonChangeText;
-    Button buttonToB;
     Button buttonGetData;
     Button buttonToBrowser;
     TextView t;
-    EditText e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +26,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_main);
 
         t = (TextView)findViewById(R.id.textView);
-        e = (EditText)findViewById(R.id.editText);
-
-        buttonChangeText = (Button)findViewById(R.id.buttonChangeText);
-        buttonChangeText.setOnClickListener(this);
-
-        buttonToB = (Button)findViewById(R.id.buttonGoToB);
-        buttonToB.setOnClickListener(this);
 
         startCounterButton = (Button) findViewById(R.id.start_counter);
         startCounterButton.setOnClickListener(this);
@@ -95,18 +84,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
             startActivity(intent);
         } else if (v == startLocationTrackerButton) {
             Intent intent = new Intent(MainActivity.this, LocationActivity.class);
-            startActivity(intent);
-        } else if(v == buttonChangeText) {
-            t.setText(e.getText());
-        } else if (v == buttonToB) {
-            Intent intent = new Intent(MainActivity.this, HandleOuterRequestActivity.class);
-            Bundle b = new Bundle();
-            b.putString("greeting", "hello");
-            intent.putExtra("greetingbudle", b);
-            intent.putExtra("message", "world");
-            intent.putExtra("showAll", true);
-            intent.putExtra("numItems", 5);
-
             startActivity(intent);
         } else if ( v == buttonGetData) {
             Intent intent = new Intent(MainActivity.this, SetNameActivity.class);

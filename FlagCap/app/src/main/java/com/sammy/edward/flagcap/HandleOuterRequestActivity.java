@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,9 +37,8 @@ public class HandleOuterRequestActivity extends Activity {
                 final EditText e = (EditText)findViewById(R.id.editText);
 
 
-                Button b = (Button)findViewById(R.id.buttonChangeText);
 
-                b.setOnClickListener(new View.OnClickListener() {
+                /*b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -51,7 +48,7 @@ public class HandleOuterRequestActivity extends Activity {
 
                         startActivity(intent);
                     }
-                });
+                });*/
             }
         }
 
