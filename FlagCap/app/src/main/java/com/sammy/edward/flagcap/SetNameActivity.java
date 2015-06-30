@@ -9,33 +9,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class ActivityC extends Activity {
+public class SetNameActivity extends Activity implements View.OnClickListener{
+
+    Button buttonSend;
+    Button buttonCancel;
+    EditText e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_c_layout);
+        setContentView(R.layout.setnameactivity_layout);
 
-        final EditText e = (EditText)findViewById(R.id.editText);
+        e = (EditText)findViewById(R.id.editText);
 
-        Button buttonSend = (Button)findViewById(R.id.buttonSend);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent result = new Intent();
-                result.putExtra("Data", e.getText().toString());
-                setResult(Activity.RESULT_OK,result);
-                finish();
-            }
-        });
-        Button buttonCancel = (Button)findViewById(R.id.buttonCancel);
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
-        });
+        buttonSend = (Button)findViewById(R.id.buttonSend);
+        buttonSend.setOnClickListener(this);
+        buttonCancel = (Button)findViewById(R.id.buttonCancel);
+        buttonCancel.setOnClickListener(this);
     }
 
     @Override
@@ -58,5 +48,18 @@ public class ActivityC extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == buttonSend) {
+            Intent result = new Intent();
+            result.putExtra("Data", e.getText().toString());
+            setResult(Activity.RESULT_OK,result);
+            finish();
+        } else if (v == buttonCancel) {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+        }
     }
 }

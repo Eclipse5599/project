@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class MainActivityB extends Activity {
+public class HandleOuterRequestActivity extends Activity {
 
     TextView t;
     Boolean impossibleCondition = false;
@@ -45,7 +45,7 @@ public class MainActivityB extends Activity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent = new Intent(MainActivityB.this, MainActivity.class);
+                        Intent intent = new Intent(HandleOuterRequestActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 

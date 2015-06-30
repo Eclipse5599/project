@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         } else if(v == buttonChangeText) {
             t.setText(e.getText());
         } else if (v == buttonToB) {
-            Intent intent = new Intent(MainActivity.this, MainActivityB.class);
+            Intent intent = new Intent(MainActivity.this, HandleOuterRequestActivity.class);
             Bundle b = new Bundle();
             b.putString("greeting", "hello");
             intent.putExtra("greetingbudle", b);
@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             startActivity(intent);
         } else if ( v == buttonGetData) {
-            Intent intent = new Intent(MainActivity.this, ActivityC.class);
+            Intent intent = new Intent(MainActivity.this, SetNameActivity.class);
             startActivityForResult(intent, 0);
         } else if (v == buttonToBrowser) {
             Uri address = Uri.parse("http://developer.android.com/");

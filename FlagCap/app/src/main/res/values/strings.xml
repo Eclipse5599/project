@@ -37,4 +37,6 @@
     <string name="edit_text">EditText</string>
     <string name="text_view">TextView</string>
     <string name="mainactivityb_title">MainActivityB</string>
+
+    <string name="player_name">Your nickname</string>
 </resources>

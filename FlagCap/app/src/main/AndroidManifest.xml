@@ -20,12 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityC"
-            android:label="@string/activity_c_title"
-            android:parentActivityName=".MainActivity"
-            >
-        </activity>
-        <activity android:name="com.sammy.edward.flagcap.MainActivityB"
+        <activity android:name=".HandleOuterRequestActivity"
             android:label="@string/mainactivityb_title"
             android:parentActivityName=".MainActivity"
             >
