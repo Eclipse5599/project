@@ -1,9 +1,14 @@
 package com.sammy.edward.flagcap;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +17,38 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final EditText e = (EditText)findViewById(R.id.editText);
+        final TextView t = (TextView)findViewById(R.id.textView);
+        Button b = (Button)findViewById(R.id.button);
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t.setText(e.getText());
+            }
+        });
+
+        Button b2 = (Button)findViewById(R.id.button2);
+        b2.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Moves to MainActivityB
+             * @param v
+             */
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, MainActivityB.class);
+                Bundle b = new Bundle();
+                b.putString("greeting", "hello");
+                intent.putExtra("greetingbudle", b);
+                intent.putExtra("message", "world");
+                intent.putExtra("showAll", true);
+                intent.putExtra("numItems", 5);
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
