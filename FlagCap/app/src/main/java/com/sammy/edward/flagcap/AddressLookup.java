@@ -29,7 +29,7 @@ public class AddressLookup extends IntentService {
         String errorMessage = "";
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        receiver = intent.getParcelableExtra(Constants.RECIEVER);
+        receiver = intent.getParcelableExtra(Constants.RECEIVER);
         Location location = intent.getParcelableExtra(Constants.LOCATION_DATA_EXTRA);
 
         List<Address> addresses = null;
