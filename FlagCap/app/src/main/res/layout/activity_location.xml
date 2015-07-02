@@ -85,4 +85,13 @@
         android:textStyle="italic"
     />
 
+    <fragment
+        android:id="@+id/location_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/location_time_updated"
+    />
+
 </RelativeLayout>
