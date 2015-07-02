@@ -20,14 +20,11 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/player_name"
         android:layout_weight="0.17"
-        android:textSize="@dimen/abc_action_bar_content_inset_material"
-        android:textStyle="normal|bold|italic"
+        style="@style/CustomTextStyle"
         android:theme="@style/Widget.AppCompat.Button.Borderless"
         android:transitionName="@string/abc_action_bar_home_description"
-        android:shadowColor="#ffff0010"
         android:singleLine="true"
         android:phoneNumber="false"
-        android:textColor="#ffff0000"
         android:outlineProvider="background"
         android:letterSpacing="2"
         android:gravity="center"
@@ -40,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/action_count"
+        style="@style/CustomTextStyle"
     />
 
     <Button
@@ -48,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/action_gamemenu"
+        style="@style/CustomTextStyle"
     />
 
     <Button
@@ -56,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/action_location"
+        style="@style/CustomTextStyle"
     />
 
     <Button
@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Select Nickname"
+        style="@style/CustomTextStyle"
     />
 
     <Button
@@ -72,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Go to our website"
+        style="@style/CustomTextStyle"
     />
 
     <ImageView
