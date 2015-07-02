@@ -3,8 +3,11 @@ package com.sammy.edward.flagcap;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +54,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         t.setText(sharedPref.getString(THE_NICKNAME, "Your Nickname"));
+
+        PackageManager pm = getPackageManager();
+        if(pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            //add camera code here
+        }
     }
 
     @Override
@@ -59,6 +67,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
         myImageView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
         super.onResume();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        Log.d("HEJ","ConfigbyttesiMainactivity");
     }
     
     @Override

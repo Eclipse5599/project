@@ -14,17 +14,23 @@
          Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-sdk android:minSdkVersion="14"
+        android:targetSdkVersion="22"></uses-sdk>
 
     <application
         android:allowBackup="true"
-        android:configChanges="orientation"
         android:icon="@drawable/launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:configChanges="orientation">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden">
+            <uses-feature android:name="android.hardware.Camera" android:required="false"></uses-feature>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,13 +42,12 @@
             android:label="@string/mainactivityb_title"
             android:parentActivityName=".MainActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
+                <action android:name="android.intent.action.SEND"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="text/plain"></data>
             </intent-filter>
         </activity>
+
         <activity
             android:name="extra.CounterActivity"
             android:label="@string/count_activity_title"
@@ -53,6 +58,7 @@
             android:label="@string/startmenu_title"
             android:parentActivityName=".MainActivity" >
         </activity>
+
         <activity
             android:name=".LocationActivity"
             android:label="@string/location_tracker_title"
