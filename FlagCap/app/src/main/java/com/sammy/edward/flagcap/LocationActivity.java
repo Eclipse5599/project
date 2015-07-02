@@ -4,6 +4,7 @@ package com.sammy.edward.flagcap;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
@@ -15,16 +16,25 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 
 public class LocationActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
 
     GoogleApiClient googleApiClient;
+    GoogleMap theMap;
 
     TextView latitude_value;
     TextView longitude_value;
@@ -34,6 +44,8 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     Location currentLocation;
     LocationRequest locationRequest;
     Boolean requestingLocationUpdates = false;
+
+    HashMap<String, Marker> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,8 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         latitude_value = (TextView) findViewById(R.id.location_latitude_value);
         longitude_value = (TextView) findViewById(R.id.location_longitude_value);
         lastUpdate = (TextView) findViewById(R.id.location_time_updated);
+
+        markers = new HashMap<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_map);
         mapFragment.getMapAsync(this);
@@ -114,10 +128,11 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
 
     @Override
     public void onMapReady(GoogleMap map) {
+        theMap = map;
         // Add a marker in Sydney, Australia, and move the camera.
         LatLng lingon32 = new LatLng(59.4633094, 17.9470539);
-        map.addMarker(new MarkerOptions().position(lingon32).title("Marker at lingonv. 32"));
-        map.moveCamera(CameraUpdateFactory.zoomTo(10));
+        markers.put("marker1", placeFlag(lingon32));
+        map.moveCamera(CameraUpdateFactory.zoomTo(15));
         map.moveCamera(CameraUpdateFactory.newLatLng(lingon32));
     }
 
@@ -143,5 +158,19 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         latitude_value.setText(String.valueOf(currentLocation.getLatitude()));
         longitude_value.setText(String.valueOf(currentLocation.getLongitude()));
         lastUpdate.setText(timeOfLastUpdate);
+        if(markers.get("currentLocation") != null) {
+            markers.get("currentLocation").setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+        } else {
+            markers.put("currentLocation", theMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("currentLocation")));
+        }
+    }
+
+    Marker placeFlag(LatLng pos) {
+        MarkerOptions newFlag = new MarkerOptions();
+        newFlag.position(pos);
+        newFlag.title("FlagMarker" + markers.size());
+        newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
+
+        return theMap.addMarker(newFlag);
     }
 }
