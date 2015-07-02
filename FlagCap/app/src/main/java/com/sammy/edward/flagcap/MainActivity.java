@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import extra.CounterActivity;
 
-
 public class MainActivity extends Activity implements View.OnClickListener{
 
     static final String THE_NICKNAME = "Your Nickname";

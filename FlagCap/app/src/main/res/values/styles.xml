@@ -13,4 +13,10 @@
         <item name="android:textColor">#ff7000</item>
     </style>
 
+    <style name="CustomTextStyle">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
 </resources>
