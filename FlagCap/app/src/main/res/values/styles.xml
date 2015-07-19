@@ -5,6 +5,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="GameTheme" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+        <!-- Customize your theme here. -->
+    </style>
+
     <style name="TitleText" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
     </style>

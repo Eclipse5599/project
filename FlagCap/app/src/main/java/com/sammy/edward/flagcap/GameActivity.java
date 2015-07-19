@@ -1,10 +1,8 @@
 package com.sammy.edward.flagcap;
 
-
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,32 +17,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
-
-public class LocationActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
+public class GameActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
 
     GoogleApiClient googleApiClient;
     GoogleMap theMap;
 
-    TextView latitude_value;
-    TextView longitude_value;
-    TextView lastUpdate;
-
-    String timeOfLastUpdate;
     Location currentLocation;
+    LatLng currentCoordinates;
     LocationRequest locationRequest;
     Boolean requestingLocationUpdates = false;
 
-    HashMap<String, Marker> markers;
+    HashMap<String, Marker> flags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_game);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -53,17 +43,13 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
                 .build();
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        latitude_value = (TextView) findViewById(R.id.location_latitude_value);
-        longitude_value = (TextView) findViewById(R.id.location_longitude_value);
-        lastUpdate = (TextView) findViewById(R.id.location_time_updated);
+        flags = new HashMap<>();
 
-        markers = new HashMap<>();
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.game_map);
         mapFragment.getMapAsync(this);
     }
 
@@ -115,7 +101,6 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
-        timeOfLastUpdate = DateFormat.getTimeInstance().format(new Date());
         updateUI();
     }
 
@@ -124,14 +109,13 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         theMap = map;
 
         LatLng lingon32 = new LatLng(59.4633094, 17.9470539);
-        markers.put("marker1", placeFlag(lingon32));
+        flags.put("Flag", placeFlag(lingon32));
+
         map.moveCamera(CameraUpdateFactory.zoomTo(15));
-        map.moveCamera(CameraUpdateFactory.newLatLng(lingon32));
     }
 
     void getLastKnownLocation() {
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        timeOfLastUpdate = DateFormat.getTimeInstance().format(new Date());
         if (currentLocation != null) {
             updateUI();
         }
@@ -148,20 +132,14 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     }
 
     void updateUI() {
-        latitude_value.setText(String.valueOf(currentLocation.getLatitude()));
-        longitude_value.setText(String.valueOf(currentLocation.getLongitude()));
-        lastUpdate.setText(timeOfLastUpdate);
-        if(markers.get("currentLocation") != null) {
-            markers.get("currentLocation").setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-        } else {
-            markers.put("currentLocation", theMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("currentLocation")));
-        }
+        currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        theMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
     }
 
     Marker placeFlag(LatLng pos) {
         MarkerOptions newFlag = new MarkerOptions();
         newFlag.position(pos);
-        newFlag.title("FlagMarker" + markers.size());
+        newFlag.title("FlagMarker" + flags.size());
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
 
         return theMap.addMarker(newFlag);
