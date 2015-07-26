@@ -3,6 +3,8 @@ package com.sammy.edward.flagcap;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -48,6 +51,9 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         flags = new HashMap<>();
+
+        View mapView = findViewById(R.id.game_mapView);
+        mapView.setClickable(false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.game_map);
         mapFragment.getMapAsync(this);
@@ -112,6 +118,19 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         flags.put("Flag", placeFlag(lingon32));
 
         map.moveCamera(CameraUpdateFactory.zoomTo(15));
+        applyMapSettings();
+    }
+
+    void applyMapSettings () {
+        UiSettings mapSettings = theMap.getUiSettings();
+
+        mapSettings.setCompassEnabled(false);
+        mapSettings.setMapToolbarEnabled(false);
+        mapSettings.setRotateGesturesEnabled(false);
+        mapSettings.setScrollGesturesEnabled(false);
+        mapSettings.setTiltGesturesEnabled(false);
+        mapSettings.setZoomGesturesEnabled(false);
+
     }
 
     void getLastKnownLocation() {
