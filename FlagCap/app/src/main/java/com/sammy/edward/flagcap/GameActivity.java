@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,6 +35,9 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     HashMap<String, Marker> flags;
 
+    SeekBar zoomLevel;
+    int currentZoomLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,28 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         flags = new HashMap<>();
 
-        View mapView = findViewById(R.id.game_mapView);
+        zoomLevel = (SeekBar)findViewById(R.id.game_zoom_level);
+        currentZoomLevel = zoomLevel.getProgress()+14;
+        zoomLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                currentZoomLevel = progress+14;
+                zoomGameMap();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        View mapView = findViewById(R.id.game_map);
         mapView.setClickable(false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.game_map);
@@ -117,8 +142,12 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         LatLng lingon32 = new LatLng(59.4633094, 17.9470539);
         flags.put("Flag", placeFlag(lingon32));
 
-        map.moveCamera(CameraUpdateFactory.zoomTo(15));
+        zoomGameMap();
         applyMapSettings();
+    }
+
+    void zoomGameMap() {
+        theMap.moveCamera(CameraUpdateFactory.zoomTo(currentZoomLevel));
     }
 
     void applyMapSettings () {

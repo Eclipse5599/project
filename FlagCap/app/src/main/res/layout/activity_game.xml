@@ -51,6 +51,15 @@
             android:layout_marginStart="@dimen/activity_text_margin"
             android:text="@string/game_current_points"
         />
+
+        <SeekBar
+            android:id="@+id/game_zoom_level"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progress="2"
+            android:max="4"
+            />
     </LinearLayout>
 
     <LinearLayout
