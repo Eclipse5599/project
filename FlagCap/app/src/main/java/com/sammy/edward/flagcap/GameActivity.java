@@ -4,7 +4,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -140,7 +139,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         theMap = map;
 
         LatLng lingon32 = new LatLng(59.4633094, 17.9470539);
-        flags.put("Flag", placeFlag(lingon32));
+        placeFlag(lingon32);
 
         zoomGameMap();
         applyMapSettings();
@@ -159,6 +158,11 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         mapSettings.setScrollGesturesEnabled(false);
         mapSettings.setTiltGesturesEnabled(false);
         mapSettings.setZoomGesturesEnabled(false);
+        theMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            public boolean onMarkerClick(Marker marker) {
+                return true;
+            }
+        });
 
     }
 
@@ -184,12 +188,12 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         theMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
     }
 
-    Marker placeFlag(LatLng pos) {
+    void placeFlag(LatLng pos) {
         MarkerOptions newFlag = new MarkerOptions();
         newFlag.position(pos);
         newFlag.title("FlagMarker" + flags.size());
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
 
-        return theMap.addMarker(newFlag);
+        flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
     }
 }
