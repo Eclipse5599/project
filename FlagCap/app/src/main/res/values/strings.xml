@@ -32,6 +32,13 @@
     <string name="startmenu_optionsbutton">Options</string>
     <string name="startmenu_exitbutton">Exit Game</string>
 
+    <!-- The Game -->
+    <string name="game_title">FlagCap</string>
+    <string name="game_point_pretext">Points:</string>
+    <string name="game_current_points">0</string>
+    <string name="game_user_pretext">Nickname:</string>
+    <string name="game_current_user">CL4P-TP</string>
+
     <!-- Error Messages -->
     <string name="service_not_available">Sorry, the service is not available.</string>
     <string name="invalid_lat_long_used">Invalid latitude or longitude.</string>
