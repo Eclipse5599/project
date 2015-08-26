@@ -1,7 +1,6 @@
 package com.sammy.edward.flagcap;
 
 
-import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
