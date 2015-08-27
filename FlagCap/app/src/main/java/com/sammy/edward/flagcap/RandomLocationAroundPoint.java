@@ -30,13 +30,14 @@ public class RandomLocationAroundPoint extends IntentService {
         Random random = new Random();
 
         Location location = intent.getParcelableExtra(Constants.GAME_POINT);
+        receiver = intent.getParcelableExtra(Constants.RECEIVER);
 
         //http://gis.stackexchange.com/questions/25877/how-to-generate-random-locations-nearby-my-location
         double x0 = location.getLongitude();
         double y0 = location.getLatitude();
 
-        double u = random.nextInt(1);
-        double v = random.nextInt(1);
+        double u = random.nextDouble();
+        double v = random.nextDouble();
         double w = convertMetersToDegrees(rangeInMeter) * sqrt(u);
         double t = 2 * PI * v;
         double xTemp = w * cos(t);

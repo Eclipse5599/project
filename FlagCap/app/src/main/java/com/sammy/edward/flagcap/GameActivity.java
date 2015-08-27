@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,11 +37,14 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     LocationRequest locationRequest;
     Boolean requestingLocationUpdates = false;
     private NewFlagLocationReceiver resultReceiver;
+    int currentPointsCollected = 0;
 
     HashMap<String, Marker> flags;
 
+    TextView pointWindow;
     SeekBar zoomLevel;
     int currentZoomLevel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
             }
         });
+
+        pointWindow = (TextView) findViewById(R.id.game_current_points);
 
 
         View mapView = findViewById(R.id.game_map);
@@ -200,6 +205,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         theMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
         fetchNewFlag();
+        pointWindow.setText("" + currentPointsCollected);
     }
 
     void placeFlag(LatLng pos) {
@@ -209,6 +215,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
 
         flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
+        currentPointsCollected = flags.size();
     }
 
     void fetchNewFlag() {
