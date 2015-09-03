@@ -203,6 +203,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         if (gamePoint == null) {
             gamePoint = currentLocation;
+            placeGamePointFlag(new LatLng(gamePoint.getLatitude(), gamePoint.getLongitude()));
         }
 
         if (currentLocation != null) {
@@ -247,6 +248,13 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         flags.add(theMap.addMarker(newFlag));
 
+    }
+
+    void placeGamePointFlag(LatLng pos) {
+        MarkerOptions newFlag = new MarkerOptions();
+        newFlag.position(pos);
+        newFlag.title("GamePoint");
+        newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.game_point));
     }
 
     void fetchNewFlag() {
