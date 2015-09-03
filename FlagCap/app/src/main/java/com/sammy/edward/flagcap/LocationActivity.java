@@ -61,7 +61,7 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         longitude_value = (TextView) findViewById(R.id.location_longitude_value);
         lastUpdate = (TextView) findViewById(R.id.location_time_updated);
 
-        markers = new HashMap<>();
+        markers = new HashMap();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_map);
         mapFragment.getMapAsync(this);

@@ -3,6 +3,7 @@ package com.sammy.edward.flagcap;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -24,18 +25,18 @@ import java.util.HashMap;
 
 public class GameActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
 
-    GoogleApiClient googleApiClient;
-    GoogleMap theMap;
+    private GoogleApiClient googleApiClient;
+    private GoogleMap theMap;
 
-    Location currentLocation;
-    LatLng currentCoordinates;
-    LocationRequest locationRequest;
-    Boolean requestingLocationUpdates = false;
+    private Location currentLocation;
+    private LatLng currentCoordinates;
+    private LocationRequest locationRequest;
+    private Boolean requestingLocationUpdates = false;
 
-    HashMap<String, Marker> flags;
+    private HashMap<String, Marker> flags;
 
-    SeekBar zoomLevel;
-    int currentZoomLevel;
+    private SeekBar zoomLevel;
+    private int currentZoomLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        flags = new HashMap<>();
+        flags = new HashMap();
 
         zoomLevel = (SeekBar)findViewById(R.id.game_zoom_level);
         currentZoomLevel = zoomLevel.getProgress()+14;
@@ -94,12 +95,12 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d("SUSPENDED", "Connection suspended!");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.d("FAILED", "Connection failed!");
     }
 
     @Override
@@ -130,16 +131,18 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("CHANGED", "Location changed!");
         currentLocation = location;
         updateUI();
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
+        Log.d("READY", "Map ready!");
         theMap = map;
 
-        LatLng lingon32 = new LatLng(59.4633094, 17.9470539);
-        placeFlag(lingon32);
+        LatLng latlng = new LatLng(59.4633094, 17.9470539);
+        placeFlag(latlng);
 
         zoomGameMap();
         applyMapSettings();
