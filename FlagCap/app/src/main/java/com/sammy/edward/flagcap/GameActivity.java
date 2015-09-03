@@ -220,11 +220,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     void placeGamePointFlag(LatLng pos) {
         MarkerOptions newFlag = new MarkerOptions();
         newFlag.position(pos);
-        newFlag.title("FlagMarker" + flags.size());
+        newFlag.title("GamePoint");
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.game_point));
-
-        flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
-        currentPointsCollected = flags.size();
     }
 
     void fetchNewFlag() {
