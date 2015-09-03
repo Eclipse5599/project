@@ -1,11 +1,14 @@
 package com.sammy.edward.flagcap;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,7 +30,10 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     private GoogleApiClient googleApiClient;
     private GoogleMap theMap;
-
+    
+    Location gamePoint;
+    private NewFlagLocationReceiver resultReceiver;
+    int currentPointsCollected = 0;
     private Location currentLocation;
     private LatLng currentCoordinates;
     private LocationRequest locationRequest;
@@ -35,6 +41,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     private HashMap<String, Marker> flags;
 
+    TextView pointWindow;
     private SeekBar zoomLevel;
     private int currentZoomLevel;
 
@@ -42,6 +49,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        resultReceiver = new NewFlagLocationReceiver(new Handler());
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -76,6 +85,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
             }
         });
 
+        pointWindow = (TextView) findViewById(R.id.game_current_points);
 
         View mapView = findViewById(R.id.game_map);
         mapView.setClickable(false);
@@ -171,6 +181,11 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     void getLastKnownLocation() {
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+
+        if (gamePoint == null) {
+            gamePoint = currentLocation;
+        }
+
         if (currentLocation != null) {
             updateUI();
         }
@@ -189,6 +204,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     void updateUI() {
         currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         theMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
+        fetchNewFlag();
+        pointWindow.setText("" + currentPointsCollected);
     }
 
     void placeFlag(LatLng pos) {
@@ -198,5 +215,31 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
 
         flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
+        currentPointsCollected = flags.size();
+    }
+
+    void fetchNewFlag() {
+        if (gamePoint != null) {
+            Intent intent = new Intent(this, RandomLocationAroundPoint.class);
+            intent.putExtra(Constants.RECEIVER, resultReceiver);
+            intent.putExtra(Constants.GAME_POINT, gamePoint);
+            startService(intent);
+        }
+    }
+
+    class NewFlagLocationReceiver extends ResultReceiver {
+        public NewFlagLocationReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                double[] latLng = resultData.getDoubleArray(Constants.RESULT_DATA_KEY);
+                LatLng newFlagLocation = new LatLng(latLng[0], latLng[1]);
+                //Log.i("GameActivity", "Requested location is: (" + latLng[0] + ", " + latLng[1] + ")");
+                placeFlag(newFlagLocation);
+            }
+        }
     }
 }
