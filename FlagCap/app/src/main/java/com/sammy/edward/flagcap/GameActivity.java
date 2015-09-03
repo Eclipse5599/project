@@ -152,9 +152,6 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         Log.d("READY", "Map ready!");
         theMap = map;
 
-        LatLng latlng = new LatLng(59.4633094, 17.9470539);
-        placeFlag(latlng);
-
         zoomGameMap();
         applyMapSettings();
     }
@@ -185,6 +182,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         if (gamePoint == null) {
             gamePoint = currentLocation;
+            placeGamePointFlag(new LatLng(gamePoint.getLatitude(), gamePoint.getLongitude()));
         }
 
         if (currentLocation != null) {
@@ -214,6 +212,16 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         newFlag.position(pos);
         newFlag.title("FlagMarker" + flags.size());
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
+
+        flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
+        currentPointsCollected = flags.size();
+    }
+
+    void placeGamePointFlag(LatLng pos) {
+        MarkerOptions newFlag = new MarkerOptions();
+        newFlag.position(pos);
+        newFlag.title("FlagMarker" + flags.size());
+        newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.game_point));
 
         flags.put(newFlag.getTitle(), theMap.addMarker(newFlag));
         currentPointsCollected = flags.size();
