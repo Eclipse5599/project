@@ -31,6 +31,7 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
 
     TextView latitude_value;
     TextView longitude_value;
+    TextView altitude_value;
     TextView lastUpdate;
 
     String timeOfLastUpdate;
@@ -59,6 +60,7 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
 
         latitude_value = (TextView) findViewById(R.id.location_latitude_value);
         longitude_value = (TextView) findViewById(R.id.location_longitude_value);
+        altitude_value = (TextView) findViewById(R.id.location_altitude_value);
         lastUpdate = (TextView) findViewById(R.id.location_time_updated);
 
         markers = new HashMap();
@@ -150,6 +152,7 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     void updateUI() {
         latitude_value.setText(String.valueOf(currentLocation.getLatitude()));
         longitude_value.setText(String.valueOf(currentLocation.getLongitude()));
+        altitude_value.setText(String.valueOf(currentLocation.getAltitude())+" meters");
         lastUpdate.setText(timeOfLastUpdate);
         if(markers.get("currentLocation") != null) {
             markers.get("currentLocation").setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));

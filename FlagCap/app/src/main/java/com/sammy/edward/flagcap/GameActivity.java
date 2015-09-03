@@ -71,11 +71,11 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         flags = new ArrayList<>();
 
         zoomLevel = (SeekBar)findViewById(R.id.game_zoom_level);
-        currentZoomLevel = zoomLevel.getProgress()+14;
+        currentZoomLevel = zoomLevel.getProgress()+12;
         zoomLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                currentZoomLevel = progress+14;
+                currentZoomLevel = progress+12;
                 zoomGameMap();
             }
 
@@ -180,6 +180,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     void applyMapSettings () {
         UiSettings mapSettings = theMap.getUiSettings();
         theMap.setMyLocationEnabled(true);
+        mapSettings.setMyLocationButtonEnabled(false);
         mapSettings.setCompassEnabled(false);
         mapSettings.setMapToolbarEnabled(false);
         mapSettings.setRotateGesturesEnabled(false);
