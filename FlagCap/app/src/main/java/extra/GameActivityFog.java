@@ -1,5 +1,6 @@
-package com.sammy.edward.flagcap;
+package extra;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,16 +26,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sammy.edward.flagcap.Constants;
+import com.sammy.edward.flagcap.R;
+import com.sammy.edward.flagcap.RandomLocationAroundPoint;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import extra.DualValue;
-import extra.ExecuterThread;
-import extra.Mathematics;
-import extra.MyOutput;
-
-public class GameActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
+public class GameActivityFog extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
 
     private GoogleApiClient googleApiClient;
     private GoogleMap theMap;
@@ -45,11 +45,14 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private LocationRequest locationRequest;
     private Boolean requestingLocationUpdates = false;
     private ArrayList<Marker> flags;
+    private ArrayList<Marker> fogs;
     private TextView pointWindow;
     private SeekBar zoomLevel;
     private int currentZoomLevel;
-    private boolean generateFlags = false;
+    private boolean generateFlags = true;
+    private boolean generateFogs = true;
     private final int AMOUNT_OF_FLAGS_WISHED = 500;
+    private final int AMOUNT_OF_FOGS_WISHED = 1000;
     private final double PICK_RADIUS = 0.008; //is 10 meters
     private final int UPDATE_RATE = 5000;
 
@@ -57,7 +60,6 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        generateFlags = true;
         resultReceiver = new NewFlagLocationReceiver(new Handler());
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -106,22 +108,28 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     @Override
     public void onLocationChanged(Location location) {
 
-        MyOutput.displayShortMessage("Location Updated!", getApplicationContext());
+        Context context = getApplicationContext();
+        CharSequence text = "LOCATION UPDATE!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
 
+        Log.d("CHANGED", "Location changed!");
+        currentLocation = location;
+        updateUI();
+        pickFlagIfClose();
         if(generateFlags){
             generateFlagsAroundPlayer();
             generateFlags = false;
+            //processThread.start();
         }
-        currentLocation = location;
-
-        updateUI();
-        pickFlagIfClose();
     }
 
     /**
      * Iterates through all flags, deletes them and increments points if player is close enough
      */
     public void pickFlagIfClose(){
+        Log.d("TAG", "PICK!");
 
         //GUARD
         if(flags == null){
@@ -145,18 +153,12 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
             }
             //END OF GUARD
 
-            boolean flagPicked = false;
             double flagLong = position.longitude;
             double flagLat = position.latitude;
             if(Mathematics.getDistanceFromLatLonInKm(currentCoordinates.latitude, currentCoordinates.longitude, flagLat ,flagLong) < PICK_RADIUS){
                 currentMark.remove();
                 it.remove();
-                flagPicked = true;
                 currentPointsCollected++;
-            }
-
-            if(flagPicked){
-                MyOutput.displayShortMessage("Flag Picked!", getApplicationContext());
             }
         }
     }
@@ -207,20 +209,22 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     }
 
     void updateUI() {
-
-        //GUARD
+        Log.d("UPDATEUI", "UpdateUI");
         if(currentLocation == null){
+            Context context = getApplicationContext();
+            CharSequence text = "SUCCESS PICK!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
             return;
         }
-        //END OF GUARD
-
         currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         theMap.moveCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
         pointWindow.setText("" + currentPointsCollected);
     }
 
     void placeFlag(LatLng pos) {
-
+        Log.d("START", "PLACEFLAG");
         MarkerOptions newFlag = new MarkerOptions();
         newFlag.position(pos);
         newFlag.title("FlagMarker" + flags.size());
@@ -229,9 +233,17 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
     }
 
+    public void placeFog(LatLng pos){
+        Log.d("START", "PLACEFOG");
+        MarkerOptions newFog = new MarkerOptions();
+        newFog.position(pos);
+        newFog.title("FlagMarker" + flags.size());
+        newFog.icon(BitmapDescriptorFactory.fromResource(R.drawable.fog));
+        flags.add(theMap.addMarker(newFog));
+    }
 
     void fetchNewFlag() {
-
+        Log.d("START", "Newflag");
         if (gamePoint != null) {
             Intent intent = new Intent(this, RandomLocationAroundPoint.class);
             intent.putExtra(Constants.RECEIVER, resultReceiver);
@@ -327,35 +339,6 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     protected void onStop() {
         super.onStop();
         googleApiClient.disconnect();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        ArrayList<DualValue> dvList = new ArrayList<>();
-        for (Marker mark : flags){
-            LatLng pos = mark.getPosition();
-            DualValue dv = new DualValue(pos.latitude,pos.longitude);
-            dvList.add(dv);
-        }
-        savedInstanceState.putParcelableArrayList("MARKLIST", dvList);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        //Clean old values (should be cleaned already)
-        flags = new ArrayList<>();
-        theMap.clear();
-
-        ArrayList<DualValue> dvList = savedInstanceState.getParcelableArrayList("MARKLIST");
-
-        for(DualValue dv : dvList){
-            LatLng pos = new LatLng(dv.lat,dv.longi);
-            placeFlag(pos);
-        }
     }
 
 }
