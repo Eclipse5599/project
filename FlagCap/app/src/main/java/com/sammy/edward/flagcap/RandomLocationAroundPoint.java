@@ -19,7 +19,7 @@ public class RandomLocationAroundPoint extends IntentService {
 
     //public static final String TAG = "RandomLocationAroundPoint";
     protected ResultReceiver receiver;
-    public double rangeInMeter = 3000;
+    public final double RANGE_IN_METER = 1000;
 
     public RandomLocationAroundPoint () {
         super("RandomLocationAroundPoint");
@@ -38,7 +38,7 @@ public class RandomLocationAroundPoint extends IntentService {
 
         double u = random.nextDouble();
         double v = random.nextDouble();
-        double w = convertMetersToDegrees(rangeInMeter) * sqrt(u);
+        double w = convertMetersToDegrees(RANGE_IN_METER) * sqrt(u);
         double t = 2 * PI * v;
         double xTemp = w * cos(t);
         double y = w * sin(t);

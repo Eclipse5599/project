@@ -51,7 +51,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private int currentZoomLevel;
     private boolean generateFlags = true;
     private final int AMOUNT_OF_FLAGS_WISHED = 500;
-    private final double PICK_RADIUS = 0.01; //is 10 meters
+    private final double PICK_RADIUS = 0.008; //is 10 meters
     private final int UPDATE_RATE = 5000;
 
     @Override
