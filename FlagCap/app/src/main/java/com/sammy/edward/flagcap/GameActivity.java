@@ -1,6 +1,8 @@
 package com.sammy.edward.flagcap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,13 +27,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import extra.Converter;
 import extra.DualValue;
-import extra.ExecuterThread;
 import extra.Mathematics;
 import extra.MyOutput;
+import extra.ObjectSerializer;
 
 public class GameActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnMapReadyCallback {
 
@@ -52,12 +56,25 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private final int AMOUNT_OF_FLAGS_WISHED = 500;
     private final double PICK_RADIUS = 0.008; //is 10 meters
     private final int UPDATE_RATE = 5000;
+    private boolean recreating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        if(!sharedPrefs.contains(Constants.MARKER_LIST)){
+            Log.i("D", "Restoring");
+            recreating = true;
+            generateFlags = false;
+        } else {
+            Log.i("D", "FirstTime");
+            generateFlags = true;
+            flags = new ArrayList<>();
+        }
+
         setContentView(R.layout.activity_game);
-        generateFlags = true;
+
         resultReceiver = new NewFlagLocationReceiver(new Handler());
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -71,7 +88,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         locationRequest.setFastestInterval(UPDATE_RATE);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        flags = new ArrayList<>();
+
 
         zoomLevel = (SeekBar)findViewById(R.id.game_zoom_level);
         currentZoomLevel = zoomLevel.getProgress()+12;
@@ -111,6 +128,9 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         if(generateFlags){
             generateFlagsAroundPlayer();
             generateFlags = false;
+        } else if(recreating){
+            setPreferences();
+            recreating = false;
         }
         currentLocation = location;
 
@@ -196,7 +216,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
 
-        if (gamePoint == null) {
+        if (gamePoint == null && currentLocation != null) {
             gamePoint = currentLocation;
             placeGamePointFlag(new LatLng(gamePoint.getLatitude(), gamePoint.getLongitude()));
         }
@@ -312,14 +332,49 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     @Override
     protected void onPause() {
         super.onPause();
+
+        savePreferences();
+        //
+
         stopLocationUpdates();
+    }
+
+    public void savePreferences(){
+        //Save data
+        ArrayList<DualValue> dvList = Converter.convertMarkerListToDV(flags);
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        try {
+            editor.putString(Constants.MARKER_LIST, ObjectSerializer.serialize(dvList));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editor.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        setPreferences();
+
         if(googleApiClient.isConnected() && !requestingLocationUpdates) {
             startLocationUpdates();
+        }
+    }
+
+    public void setPreferences(){
+        ArrayList<DualValue> dvList;
+
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        try {
+            dvList = (ArrayList<DualValue>) ObjectSerializer.deserialize(prefs.getString(Constants.MARKER_LIST, ObjectSerializer.serialize(new ArrayList<DualValue>())));
+            convertDVListToMarkers(dvList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -332,25 +387,20 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+        savePreferences();
 
-        ArrayList<DualValue> dvList = new ArrayList<>();
-        for (Marker mark : flags){
-            LatLng pos = mark.getPosition();
-            DualValue dv = new DualValue(pos.latitude,pos.longitude);
-            dvList.add(dv);
-        }
-        savedInstanceState.putParcelableArrayList("MARKLIST", dvList);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        setPreferences();
 
-        //Clean old values (should be cleaned already)
+    }
+
+    public void convertDVListToMarkers(ArrayList<DualValue> dvList){
+
         flags = new ArrayList<>();
-        theMap.clear();
-
-        ArrayList<DualValue> dvList = savedInstanceState.getParcelableArrayList("MARKLIST");
 
         for(DualValue dv : dvList){
             LatLng pos = new LatLng(dv.lat,dv.longi);
