@@ -65,6 +65,14 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         setContentView(R.layout.activity_game);
 
+        Intent intent = getIntent();
+        int gameCode = intent.getIntExtra(Constants.GAMECODE, Constants.NEW_GAME_CODE);
+        if (gameCode == Constants.NEW_GAME_CODE) {
+            Log.d("Gamecode", "New Game");
+        } else if (gameCode == Constants.CONTINUE_GAME_CODE) {
+            Log.d("Gamecode", "Continue Game");
+        }
+
         resultReceiver = new NewFlagLocationReceiver(new Handler());
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -273,6 +281,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         newFlag.position(pos);
         newFlag.title("GamePoint");
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.game_point));
+        theMap.addMarker(newFlag);
     }
 
     @Override

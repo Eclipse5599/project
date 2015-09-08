@@ -29,7 +29,8 @@
 
     <!-- Start Menu -->
     <string name="startmenu_title">FlagCap</string>
-    <string name="startmenu_startbutton">Start Game</string>
+    <string name="startmenu_new_button">New Game</string>
+    <string name="startmenu_continue_button">Continue Game</string>
     <string name="startmenu_highscorebutton">Highscore</string>
     <string name="startmenu_optionsbutton">Options</string>
     <string name="startmenu_exitbutton">Exit Game</string>

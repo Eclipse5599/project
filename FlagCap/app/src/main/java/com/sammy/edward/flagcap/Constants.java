@@ -5,10 +5,14 @@ public final class Constants {
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
 
+    public static final int NEW_GAME_CODE = 0;
+    public static final int CONTINUE_GAME_CODE = 1;
+
     public static final String PACKAGE_NAME = "com.sammy.edward.flagcap";
     public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";
     public static final String RESULT_DATA_KEY = PACKAGE_NAME + ".RESULT_DATA_KEY";
     public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
     public static final String GAME_POINT = PACKAGE_NAME + ".GAME_POINT";
     public static final String MARKER_LIST = PACKAGE_NAME + ".MARKER_LIST";
+    public static final String GAMECODE = PACKAGE_NAME + ".GAMECODE";
 }

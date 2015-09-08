@@ -21,11 +21,25 @@
     </View>
 
     <Button
-        android:id="@+id/startmenu_start_button"
+        android:id="@+id/startmenu_new_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/startmenu_startbutton"
+        android:text="@string/startmenu_new_button"
+    />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+    </View>
+
+    <Button
+        android:id="@+id/startmenu_continue_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/startmenu_continue_button"
     />
 
     <View

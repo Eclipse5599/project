@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import extra.CounterActivity;
-
 public class StartMenuActivity extends Activity implements View.OnClickListener {
 
-    Button startButton;
+    Button newGameButton;
+    Button continueButton;
     Button highScoreButton;
     Button optionsButton;
     Button exitButton;
@@ -21,8 +20,11 @@ public class StartMenuActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startmenu);
 
-        startButton = (Button) findViewById(R.id.startmenu_start_button);
-        startButton.setOnClickListener(this);
+        newGameButton = (Button) findViewById(R.id.startmenu_new_button);
+        newGameButton.setOnClickListener(this);
+
+        continueButton = (Button) findViewById(R.id.startmenu_continue_button);
+        continueButton.setOnClickListener(this);
 
         highScoreButton = (Button) findViewById(R.id.startmenu_highscore_button);
         highScoreButton.setOnClickListener(this);
@@ -36,8 +38,13 @@ public class StartMenuActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if (v == startButton) {
+        if (v == newGameButton) {
             Intent intent = new Intent(StartMenuActivity.this, GameActivity.class);
+            intent.putExtra(Constants.GAMECODE, Constants.NEW_GAME_CODE);
+            startActivity(intent);
+        } else if (v == continueButton) {
+            Intent intent = new Intent(StartMenuActivity.this, GameActivity.class);
+            intent.putExtra(Constants.GAMECODE, Constants.CONTINUE_GAME_CODE);
             startActivity(intent);
         } else if (v == highScoreButton) {
 
