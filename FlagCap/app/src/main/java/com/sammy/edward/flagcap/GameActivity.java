@@ -56,6 +56,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private final int AMOUNT_OF_FLAGS_WISHED = 20;
     private final double PICK_RADIUS = 0.05; //is 10 meters
     private final int UPDATE_RATE = 2500;
+    int gameCode;
     private boolean recreating = false;
     private boolean flagsGenerated = false;
 
@@ -66,7 +67,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        int gameCode = intent.getIntExtra(Constants.GAMECODE, Constants.NEW_GAME_CODE);
+        gameCode = intent.getIntExtra(Constants.GAMECODE, Constants.NEW_GAME_CODE);
         if (gameCode == Constants.NEW_GAME_CODE) {
             Log.d("Gamecode", "New Game");
         } else if (gameCode == Constants.CONTINUE_GAME_CODE) {
@@ -363,7 +364,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         SharedPreferences sharedPrefs = getSharedPreferences("MARK",Context.MODE_PRIVATE);
         String pref = sharedPrefs.getString(Constants.MARKER_LIST, null);
-        if(pref != null){
+        if(pref != null && gameCode == Constants.CONTINUE_GAME_CODE){
             Log.i("D", "CREATING");
             recreating = true;
             flagsGenerated = true;
