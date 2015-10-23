@@ -84,11 +84,31 @@
     />
 
     <TextView
+        android:id="@+id/location_water_pretext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_altitude"
+        android:text="@string/location_water_pretext"
+    />
+
+    <TextView
+        android:id="@+id/location_water_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_alignBottom="@id/location_water_pretext"
+        android:layout_toRightOf="@id/location_water_pretext"
+        android:layout_toEndOf="@id/location_water_pretext"
+        android:text="@string/location_water_value"
+    />
+
+    <TextView
         android:id="@+id/location_update_pretext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/location_longitude"
+        android:layout_below="@id/location_water_pretext"
         android:text="@string/location_default_update_pretext"
         android:textStyle="bold|italic"
     />

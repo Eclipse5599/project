@@ -29,7 +29,7 @@ public class AddressLookup extends IntentService {
         String errorMessage = "";
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        receiver = intent.getParcelableExtra(Constants.RECEIVER);
+        receiver = intent.getParcelableExtra(Constants.GAME_RECEIVER);
         Location location = intent.getParcelableExtra(Constants.LOCATION_DATA_EXTRA);
 
         List<Address> addresses = null;
@@ -69,7 +69,7 @@ public class AddressLookup extends IntentService {
 
     private void deliverResultToReceiver(int resultCode, String message) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.RESULT_DATA_KEY, message);
+        bundle.putString(Constants.GAME_RESULT_DATA_KEY, message);
         receiver.send(resultCode, bundle);
     }
 }

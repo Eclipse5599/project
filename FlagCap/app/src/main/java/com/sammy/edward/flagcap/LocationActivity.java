@@ -1,8 +1,11 @@
 package com.sammy.edward.flagcap;
 
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
@@ -32,12 +35,15 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     TextView latitude_value;
     TextView longitude_value;
     TextView altitude_value;
+    TextView water_value;
     TextView lastUpdate;
 
     String timeOfLastUpdate;
     Location currentLocation;
     LocationRequest locationRequest;
     Boolean requestingLocationUpdates = false;
+
+    private WaterCheckerReceiver resultReceiver;
 
     HashMap<String, Marker> markers;
 
@@ -61,9 +67,12 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         latitude_value = (TextView) findViewById(R.id.location_latitude_value);
         longitude_value = (TextView) findViewById(R.id.location_longitude_value);
         altitude_value = (TextView) findViewById(R.id.location_altitude_value);
+        water_value = (TextView) findViewById(R.id.location_water_value);
         lastUpdate = (TextView) findViewById(R.id.location_time_updated);
 
         markers = new HashMap();
+
+        resultReceiver = new WaterCheckerReceiver(new Handler());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_map);
         mapFragment.getMapAsync(this);
@@ -129,6 +138,10 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         markers.put("marker1", placeFlag(lingon32));
         map.moveCamera(CameraUpdateFactory.zoomTo(15));
         map.moveCamera(CameraUpdateFactory.newLatLng(lingon32));
+
+
+        //Check the if Norrviken is considered water.
+        checkIfWater(new LatLng(59.46175, 17.93359));
     }
 
     void getLastKnownLocation() {
@@ -150,15 +163,27 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
     }
 
     void updateUI() {
-        latitude_value.setText(String.valueOf(currentLocation.getLatitude()));
-        longitude_value.setText(String.valueOf(currentLocation.getLongitude()));
-        altitude_value.setText(String.valueOf(currentLocation.getAltitude())+" meters");
+        double lat = currentLocation.getLatitude();
+        double lng = currentLocation.getLongitude();
+
+        checkIfWater(new LatLng(lat, lng));
+
+        latitude_value.setText(String.valueOf(lat));
+        longitude_value.setText(String.valueOf(lng));
+        altitude_value.setText(String.valueOf(currentLocation.getAltitude()) + " meters");
         lastUpdate.setText(timeOfLastUpdate);
         if(markers.get("currentLocation") != null) {
             markers.get("currentLocation").setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
         } else {
             markers.put("currentLocation", theMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("currentLocation")));
         }
+    }
+
+    void checkIfWater (LatLng location) {
+        Intent intent = new Intent(this, WaterChecker.class);
+        intent.putExtra(Constants.WATER_RECEIVER, resultReceiver);
+        intent.putExtra(Constants.WATER_POINT, location);
+        startService(intent);
     }
 
     Marker placeFlag(LatLng pos) {
@@ -169,4 +194,19 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
 
         return theMap.addMarker(newFlag);
     }
+
+    class WaterCheckerReceiver extends ResultReceiver {
+        public WaterCheckerReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                boolean result = resultData.getBoolean(Constants.WATER_RESULT_DATA_KEY);
+                water_value.setText(String.valueOf(result));
+            }
+        }
+    }
+
 }

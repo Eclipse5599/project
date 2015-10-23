@@ -246,7 +246,7 @@ public class GameActivityFog extends FragmentActivity implements GoogleApiClient
         Log.d("START", "Newflag");
         if (gamePoint != null) {
             Intent intent = new Intent(this, RandomLocationAroundPoint.class);
-            intent.putExtra(Constants.RECEIVER, resultReceiver);
+            intent.putExtra(Constants.GAME_RECEIVER, resultReceiver);
             intent.putExtra(Constants.GAME_POINT, gamePoint);
             startService(intent);
         }
@@ -260,7 +260,7 @@ public class GameActivityFog extends FragmentActivity implements GoogleApiClient
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             if (resultCode == Constants.SUCCESS_RESULT) {
-                double[] latLng = resultData.getDoubleArray(Constants.RESULT_DATA_KEY);
+                double[] latLng = resultData.getDoubleArray(Constants.GAME_RESULT_DATA_KEY);
                 LatLng newFlagLocation = new LatLng(latLng[0], latLng[1]);
                 placeFlag(newFlagLocation);
             }

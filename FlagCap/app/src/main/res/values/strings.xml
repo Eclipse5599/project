@@ -24,6 +24,8 @@
     <string name="location_longitude_value">000000000</string>
     <string name="location_altitude">Altitude: </string>
     <string name="location_altitude_value">000000000</string>
+    <string name="location_water_pretext">Is your location in water? </string>
+    <string name="location_water_value">Unknown</string>
     <string name="location_default_update_pretext">Last updated: </string>
     <string name="location_time_updated">Never</string>
 

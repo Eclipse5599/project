@@ -255,27 +255,11 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         if (gamePoint != null) {
             Intent intent = new Intent(this, RandomLocationAroundPoint.class);
-            intent.putExtra(Constants.RECEIVER, resultReceiver);
+            intent.putExtra(Constants.GAME_RECEIVER, resultReceiver);
             intent.putExtra(Constants.GAME_POINT, gamePoint);
             startService(intent);
         }
     }
-
-    class NewFlagLocationReceiver extends ResultReceiver {
-        public NewFlagLocationReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            if (resultCode == Constants.SUCCESS_RESULT) {
-                double[] latLng = resultData.getDoubleArray(Constants.RESULT_DATA_KEY);
-                LatLng newFlagLocation = new LatLng(latLng[0], latLng[1]);
-                placeFlag(newFlagLocation);
-            }
-        }
-    }
-
 
     void placeGamePointFlag(LatLng pos) {
         MarkerOptions newFlag = new MarkerOptions();
@@ -284,6 +268,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         newFlag.icon(BitmapDescriptorFactory.fromResource(R.drawable.game_point));
         theMap.addMarker(newFlag);
     }
+
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -400,8 +385,6 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         googleApiClient.disconnect();
     }
 
-
-
     public void convertDVListToMarkers(ArrayList<DualValue> dvList){
         Log.i("HEJ","CONVERTING");
         flags = new ArrayList<>();
@@ -409,6 +392,23 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         for(DualValue dv : dvList){
             LatLng pos = new LatLng(dv.lat,dv.longi);
             placeFlag(pos);
+        }
+    }
+
+
+
+    class NewFlagLocationReceiver extends ResultReceiver {
+        public NewFlagLocationReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                double[] latLng = resultData.getDoubleArray(Constants.GAME_RESULT_DATA_KEY);
+                LatLng newFlagLocation = new LatLng(latLng[0], latLng[1]);
+                placeFlag(newFlagLocation);
+            }
         }
     }
 

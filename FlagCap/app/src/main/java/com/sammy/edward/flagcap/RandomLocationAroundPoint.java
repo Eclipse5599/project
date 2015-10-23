@@ -19,7 +19,7 @@ public class RandomLocationAroundPoint extends IntentService {
 
     //public static final String TAG = "RandomLocationAroundPoint";
     protected ResultReceiver receiver;
-    public final double RANGE_IN_METER = 1000;
+    public final double RANGE_IN_METER = 2000;
 
     public RandomLocationAroundPoint () {
         super("RandomLocationAroundPoint");
@@ -30,7 +30,7 @@ public class RandomLocationAroundPoint extends IntentService {
         Random random = new Random();
 
         Location location = intent.getParcelableExtra(Constants.GAME_POINT);
-        receiver = intent.getParcelableExtra(Constants.RECEIVER);
+        receiver = intent.getParcelableExtra(Constants.GAME_RECEIVER);
 
         //http://gis.stackexchange.com/questions/25877/how-to-generate-random-locations-nearby-my-location
         double x0 = location.getLongitude();
@@ -58,7 +58,7 @@ public class RandomLocationAroundPoint extends IntentService {
         Bundle bundle = new Bundle();
         //if (resultCode == Constants.SUCCESS_RESULT) {
         double[] latLng = {location.latitude, location.longitude};
-        bundle.putDoubleArray(Constants.RESULT_DATA_KEY, latLng);
+        bundle.putDoubleArray(Constants.GAME_RESULT_DATA_KEY, latLng);
         //}
         receiver.send(resultCode, bundle);
     }
