@@ -203,7 +203,7 @@ public class LocationActivity extends FragmentActivity implements GoogleApiClien
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             if (resultCode == Constants.SUCCESS_RESULT) {
-                boolean result = resultData.getBoolean(Constants.WATER_RESULT_DATA_KEY);
+                boolean result = resultData.getBoolean(Constants.WATER_BOOLEAN_RESULT_DATA_KEY);
                 water_value.setText(String.valueOf(result));
             }
         }

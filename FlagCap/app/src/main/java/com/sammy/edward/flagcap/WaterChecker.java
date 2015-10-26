@@ -29,7 +29,7 @@ public class WaterChecker extends IntentService {
         Log.d("WaterChecker", "Starting a water check on location: {" + location.latitude + ", " + location.longitude + "}");
 
         boolean result = isPointWater(location);
-        deliverResultToReceiver(Constants.SUCCESS_RESULT, result);
+        deliverResultToReceiver(Constants.SUCCESS_RESULT, result, location);
     }
 
     public boolean isPointWater(LatLng point) {
@@ -63,10 +63,13 @@ public class WaterChecker extends IntentService {
         return false;
     }
 
-    private void deliverResultToReceiver(int resultCode, boolean isWater) {
+    private void deliverResultToReceiver(int resultCode, boolean isWater, LatLng latLng) {
         Log.d("WaterChecker", "Finishing a water check, with the result: " + isWater);
+        double[] coordinates = {latLng.latitude, latLng.longitude};
+
         Bundle bundle = new Bundle();
-        bundle.putBoolean(Constants.WATER_RESULT_DATA_KEY, isWater);
+        bundle.putBoolean(Constants.WATER_BOOLEAN_RESULT_DATA_KEY, isWater);
+        bundle.putDoubleArray(Constants.WATER_COORDINATES_RESULT_DATA_KEY, coordinates);
         receiver.send(resultCode, bundle);
     }
 }

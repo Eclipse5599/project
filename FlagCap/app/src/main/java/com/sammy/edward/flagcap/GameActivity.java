@@ -42,7 +42,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private GoogleApiClient googleApiClient;
     private GoogleMap theMap;
     private Location gamePoint;
-    private NewFlagLocationReceiver resultReceiver;
+    private NewFlagLocationReceiver flagResultReceiver;
+    private WaterCheckerReceiver waterResultReceiver;
     private int currentPointsCollected = 0;
     private Location currentLocation;
     private LatLng currentCoordinates;
@@ -53,7 +54,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     private SeekBar zoomLevel;
     private int currentZoomLevel;
     private boolean generateFlags = false;
-    private final int AMOUNT_OF_FLAGS_WISHED = 20;
+    private final int AMOUNT_OF_FLAGS_WISHED = 50;
     private final double PICK_RADIUS = 0.05; //is 10 meters
     private final int UPDATE_RATE = 2500;
     int gameCode;
@@ -74,7 +75,8 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
             Log.d("Gamecode", "Continue Game");
         }
 
-        resultReceiver = new NewFlagLocationReceiver(new Handler());
+        flagResultReceiver = new NewFlagLocationReceiver(new Handler());
+        waterResultReceiver = new WaterCheckerReceiver(new Handler());
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -255,7 +257,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
 
         if (gamePoint != null) {
             Intent intent = new Intent(this, RandomLocationAroundPoint.class);
-            intent.putExtra(Constants.GAME_RECEIVER, resultReceiver);
+            intent.putExtra(Constants.GAME_RECEIVER, flagResultReceiver);
             intent.putExtra(Constants.GAME_POINT, gamePoint);
             startService(intent);
         }
@@ -368,7 +370,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     public void setPreferences(){
         ArrayList<DualValue> dvList;
 
-        SharedPreferences prefs = getSharedPreferences("MARK",Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("MARK", Context.MODE_PRIVATE);
         try {
             dvList = (ArrayList<DualValue>) ObjectSerializer.deserialize(prefs.getString(Constants.MARKER_LIST, ObjectSerializer.serialize(new ArrayList<DualValue>())));
             convertDVListToMarkers(dvList);
@@ -386,7 +388,7 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
     }
 
     public void convertDVListToMarkers(ArrayList<DualValue> dvList){
-        Log.i("HEJ","CONVERTING");
+        Log.i("HEJ", "CONVERTING");
         flags = new ArrayList<>();
 
         for(DualValue dv : dvList){
@@ -395,6 +397,12 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
         }
     }
 
+    void checkIfWater (LatLng location) {
+        Intent intent = new Intent(this, WaterChecker.class);
+        intent.putExtra(Constants.WATER_RECEIVER, waterResultReceiver);
+        intent.putExtra(Constants.WATER_POINT, location);
+        startService(intent);
+    }
 
 
     class NewFlagLocationReceiver extends ResultReceiver {
@@ -407,7 +415,28 @@ public class GameActivity extends FragmentActivity implements GoogleApiClient.Co
             if (resultCode == Constants.SUCCESS_RESULT) {
                 double[] latLng = resultData.getDoubleArray(Constants.GAME_RESULT_DATA_KEY);
                 LatLng newFlagLocation = new LatLng(latLng[0], latLng[1]);
-                placeFlag(newFlagLocation);
+                checkIfWater(newFlagLocation);
+            }
+        }
+    }
+
+    class WaterCheckerReceiver extends ResultReceiver {
+        public WaterCheckerReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                boolean isWater = resultData.getBoolean(Constants.WATER_BOOLEAN_RESULT_DATA_KEY);
+                double[] latLng = resultData.getDoubleArray(Constants.WATER_COORDINATES_RESULT_DATA_KEY);
+                LatLng coordinates = new LatLng(latLng[0], latLng[1]);
+
+                if (!isWater) {
+                    placeFlag(coordinates);
+                } else {
+                    fetchNewFlag();
+                }
             }
         }
     }

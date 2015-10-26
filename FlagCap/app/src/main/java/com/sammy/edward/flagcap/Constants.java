@@ -14,7 +14,8 @@ public final class Constants {
     public static final String GAME_RESULT_DATA_KEY = PACKAGE_NAME + ".GAME_RESULT_DATA_KEY";
     public static final String WATER_POINT = PACKAGE_NAME + ".WATER_POINT";
     public static final String WATER_RECEIVER = PACKAGE_NAME + ".WATER_RECEIVER";
-    public static final String WATER_RESULT_DATA_KEY = PACKAGE_NAME + ".WATER_RESULT_DATA_KEY";
+    public static final String WATER_BOOLEAN_RESULT_DATA_KEY = PACKAGE_NAME + ".WATER_BOOLEAN_RESULT_DATA_KEY";
+    public static final String WATER_COORDINATES_RESULT_DATA_KEY = PACKAGE_NAME + ".WATER_COORDINATES_RESULT_DATA_KEY";
     public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
     public static final String MARKER_LIST = PACKAGE_NAME + ".MARKER_LIST";
     public static final String GAMECODE = PACKAGE_NAME + ".GAMECODE";
