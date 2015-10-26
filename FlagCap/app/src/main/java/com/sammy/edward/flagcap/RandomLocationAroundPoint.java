@@ -38,10 +38,12 @@ public class RandomLocationAroundPoint extends IntentService {
 
         double u = random.nextDouble();
         double v = random.nextDouble();
-        double w = convertMetersToDegrees(RANGE_IN_METER) * sqrt(u);
+        //To solve the bug where flags were placed in an ellipse instead of a circle
+        double wx = convertMetersToDegrees(RANGE_IN_METER) * sqrt(u) * 2;
+        double wy = convertMetersToDegrees(RANGE_IN_METER) * sqrt(u);
         double t = 2 * PI * v;
-        double xTemp = w * cos(t);
-        double y = w * sin(t);
+        double xTemp = wx * cos(t);
+        double y = wy * sin(t);
 
         //Adjust x(longitude) for the shrinking of the east-west distances
         double x = xTemp / cos(y0);
